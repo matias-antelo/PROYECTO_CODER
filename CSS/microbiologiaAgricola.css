@@ -1,68 +1,47 @@
-/*sidebar {
-    width: 250px;
-    background-color: #0d74b6;
-    padding: 0px;
-
-    flex-shrink: 0;
-}
-
-
-sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-
-
-sidebar li a {
-    display: block;
-    background-color: #0d74b6;
-    color: #ffffff;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-sidebar li a:hover {
-    background-color: #0a5a8a;
-}*/
-
 header {
     display: flex;
     flex-direction: column;
-    background-color: #a6d9ee;
-    
+    background-color: #f6f8f4;
+
 }
 
-/* Parte superior: logo + título */
 .header-top {
-    position: relative;
-    padding: 20px 0;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #cceeff;
 }
 
-/* Logo: absoluto a la izquierda */
+
 .logo {
     position: absolute;
-    left: 20px;
+    left: -250px;
     top: 50%;
-    transform: translateY(-50%);
-    width: 80px; /* ajustá si querés */
+    transform: translateY(-40%);
+    width: 180px;
     height: auto;
 }
 
-/* Título centrado */
+
 .titulo {
-    font-size: 1.8em;
-    font-weight: bold;
-    margin: 0;
+    flex: 1;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0 20px;
+}
+.home-icon {
+    font-size: 1.5em;
+    color: #99968f;
+    text-decoration: none;
 }
 
-/* Menú */
+.home-icon:hover {
+    color: #636160;
+}
+
 .navbar {
-    background-color: #006bb3;
+    background-color: #99968f;
     width: 100%;
 }
 
@@ -76,7 +55,12 @@ header {
 }
 
 .navbar li {
-    margin: 0 15px;
+    margin: 0 40px;
+}
+
+.navbar li a:hover {
+    background-color: #636160;
+    padding: 10px;
 }
 
 .navbar a {
@@ -85,12 +69,23 @@ header {
     font-weight: bold;
 }
 
-content {
-    flex: 13;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
+.grilla {
+    display: grid;
+    grid-template-columns: 1fr 1px 2fr;
+    gap: 20px;
     align-items: center;
-    justify-content: center;
+    padding: 20px;
+    border: 2px solid #ccc;
+
+}
+
+.separador {
+    background-color: #ccc;
+    width: 2px;
     height: 100%;
+}
+
+.contenido {
+    font-size: 1em;
+    line-height: 1.5;
 }

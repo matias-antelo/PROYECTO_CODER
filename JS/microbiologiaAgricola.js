@@ -71,33 +71,7 @@ let autoclave = [
 
 ]
 
-let pedirEquipoMostrar = prompt("¿Que equipo desea ver?")
 
-
-if(pedirEquipoMostrar === "incubadora"){
-function mostrarIncubadoras(incubadora) {
-    confirm("se encontraron 3 incubadoras")
-    console.log(incubadora);
-    console.log("-------------------------");
-
-}
-mostrarIncubadoras(incubadora);}
-else if(pedirEquipoMostrar === "estufa"){
-function mostrarEstufas(estufa) {
-    confirm("se encontraron 3 Estufas")
-    console.log(estufa);
-    console.log("-------------------------");
-}
-mostrarEstufas(estufa);
-} else if(pedirEquipoMostrar === "autoclave"){
-function mostrarAutoclaves(autoclave) {
-    confirm("se encontraron 3 Autoclaves")
-    console.log(autoclave);
-    console.log("-------------------------");
-}
-mostrarAutoclaves(autoclave);
-
-}
 
 
 

@@ -9,29 +9,24 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #cceeff;
+    padding: 10px 40px;
+    background-color: #f6f8f4;
 }
-
 
 .logo {
-    position: absolute;
-    left: -250px;
-    top: 50%;
-    transform: translateY(-40%);
-    width: 180px;
+    width: 100px;
     height: auto;
 }
-
 
 .titulo {
     flex: 1;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.2em;
     margin: 0 20px;
 }
+
 .home-icon {
-    font-size: 1.5em;
+    font-size: 1.8em;
     color: #99968f;
     text-decoration: none;
 }
@@ -75,10 +70,19 @@ header {
     gap: 20px;
     align-items: center;
     padding: 20px;
-    border: 2px solid #ccc;
+    /*border: 2px solid #ccc;*/
 
 }
+.grilla-izquierda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.imagen-incubadora {
+    width: 50%;
+    height: auto;
+}
 .separador {
     background-color: #ccc;
     width: 2px;

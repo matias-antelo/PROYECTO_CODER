@@ -24,7 +24,7 @@ body {
 h1 {
   font-size: 2rem;
   margin-bottom: 40px;
-  color: #342739;
+  color: #000000;
   text-align: center;
 }
 
@@ -55,13 +55,14 @@ footer {
   background-color: #342739;
   border: none;
   margin-top: 100px;
-
 }
 
 .linea-footer-superior {
   height: 16px;
   background-color: #a6d9ee;
   border: none;
+  margin-top: 100px;
+  margin-bottom: 100px;
   
 
 }

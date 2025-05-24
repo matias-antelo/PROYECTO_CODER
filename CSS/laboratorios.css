@@ -64,6 +64,14 @@ header {
     font-weight: bold;
 }
 
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+}
+
 .grilla {
     display: grid;
     grid-template-columns: 1fr 1px 2fr;
@@ -92,4 +100,34 @@ header {
 .contenido {
     font-size: 1em;
     line-height: 1.5;
+}
+
+.pvolver a {
+  color: #342739;
+  text-decoration: none;
+}
+
+.pvolver {
+  text-align: right;
+  margin-right: 40px;
+}
+.linea-footer-superior {
+  height: 16px;
+  background-color: #dedfdc;
+  border: none;
+  margin-top: 00px;
+  margin-bottom: 100px;
+}
+
+footer {
+  background-color: #99968f;
+  text-align: center;
+}
+
+.linea-footer-inferior {
+  height: 40px;
+  background-color: #636160;
+  border: none;
+  margin-top: 100px;
+  margin-bottom: 0px;
 }

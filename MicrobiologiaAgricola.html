@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MicrobiologiaAgricola</title>
@@ -13,116 +14,131 @@
 
 <body>
     <header>
+
+        <!-- imagen logo, titulo del documento e icono para volver al menu principal -->
         <div class="header-top">
             <img src="FOTOS/LOGO.png" alt="Logo del laboratorio" class="logo">
             <h1 class="titulo">SEGUIMIENTO DE VERIFICACIONES, CALIBRACIONES Y MANTENIMIENTO DE EQUIPOS</h1>
             <a href="index.html" class="home-icon"><i class="fas fa-home"></i></a>
         </div>
+
+        <!-- navegador principal -->
         <nav class="navbar">
             <ul>
-                <li><a href="#">Incubadora</a></li>
-                <li><a href="#">Estufa</a></li>
-                <li><a href="#">Autoclave</a></li>
-                <li><a href="#">Termometro</a></li>
-                <li><a href="#">Microscopio</a></li>
-                <li><a href="#">Baño termostatico</a></li>
-                <li><a href="#">Balanza</a></li>
-                <li><a href="#">Flujo Laminar</a></li>
-                <li><a href="#" id="link-ingreso">Ingreso de Equipo</a></li>
-
+                <li><a href="formularioIngreso.html" id="link-ingreso">Ingreso de Equipo</a></li>
+                <li><a href="#" id="link-incubadora">Incubadora</a></li>
+                <li><a href="#"id="link-estufa">Estufa</a></li>
+                <li><a href="#"id="link-autoclave">Autoclave</a></li>
+                <li><a href="#"id="link-termometro">Termometro</a></li>
+                <li><a href="#"id="link-microscopio">Microscopio</a></li>
+                <li><a href="#"id="link-banioTermostatico">Baño termostatico</a></li>
+                <li><a href="#"id="link-balanza">Balanza</a></li>
+                <li><a href="#"id="link-flujoLaminar">Flujo Laminar</a></li>
             </ul>
         </nav>
+
     </header>
 
     <main>
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                <img src="FOTOS/INCUBADORA A.jpeg" alt="foto Incubadora" width="50%" class="imagen-incubadora">
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
 
-                <p>La ideasionar el boasdasda asda asd as dasdas ton Incubadora y pueda mostrar la salida del
-                    metodo
-                    mostrarIncubadora()
+        <!-- Logo principal para entrada -->
+        <img id="logo-principal" src="FOTOS/LOGO.png" alt="Logo2">
+        <p id="descripcion-principal">La idea de esta plataforma es dar ingreso a equipos y luego puedan ser
+            visualizador en las pestañas correspondientes.</p>
+        <p id="descripcion-principal1">El ingreso es un formulario de fechas un selector, ingreso de pdf, jpg
+            o png creando un array principal el cual entraria el objeto, </p>
+        <p id="descripcion-principal2">luego las otras pestañas son opciones que solamente muestran lo que fue
+            guardado en el array desde el formulario de ingreso</p>
 
-                </p>
+        <!-- Sección de Incubadora -->
+        <section id="Incubadora" style="display: none; padding: 20px;">
+            <div id="contenido-incubadora"></div>
+        </section>
+         <!-- Sección de Estufa -->
+        <section id="Estufa" style="display: none; padding: 20px;">
+            <div id="contenido-estufa"></div>
+        </section>
+         <!-- Sección de Autoclave -->
+        <section id="Autoclave" style="display: none; padding: 20px;">
+            <div id="contenido-autoclave"></div>
+        </section>
+         <!-- Sección de Termometro -->
+        <section id="Termometro" style="display: none; padding: 20px;">
+            <div id="contenido-termometro"></div>
+        </section>
+         <!-- Sección de Microscopio -->
+        <section id="Microscopio" style="display: none; padding: 20px;">
+            <div id="contenido-microscopio"></div>
+        </section>
+         <!-- Sección de Baño termostatico -->
+        <section id="Baño termostatico" style="display: none; padding: 20px;">
+            <div id="contenido-baniotermostatico"></div>
+        </section>
+         <!-- Sección de Balanza -->
+        <section id="Balanza" style="display: none; padding: 20px;">
+            <div id="contenido-balanza"></div>
+        </section>
+         <!-- Sección de Flujo Laminar -->
+        <section id="Flujo Laminar" style="display: none; padding: 20px;">
+            <div id="contenido-flujoLaminar"></div>
+        </section>
 
-            </div>
-        </div>
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                <img src="FOTOS/INCUBADORA A.jpeg" alt="foto Incubadora" width="50%" class="imagen-incubadora">
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-
-                <p>La idea 
-                    corresponutilizando el metodo correspondiente
-                    Por ejemplo presionar el boasdasda asda asd as dasdas ton Incubadora y pueda mostrar la salida del
-                    metodo
-                    mostrarIncubadora()
-
-                </p>
-
-            </div>
-        </div>
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                <img src="FOTOS/INCUBADORA A.jpeg" alt="foto Incubadora" width="50%" class="imagen-incubadora">
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-
-                <p>La idea en este content es que se elija la opcion deseada y tire como resultado el array que
-                    correspoadora()
-                    del archivo
-                    corresponda utilizando el metodo correspondiente
-                    Por ejemplo presionar el boasdasda asda asd as dasdas ton Incubadora y pueda mostrar la salida del
-                    metodo
-                    mostrarIncubadora()
-
-                </p>
-
-            </div>
-        </div>
+        <!--formulario de ingreso de equipos nuevos -->
+        <section id="formulario-ingreso" style="display: none; padding: 40px">
+            <h2>Ingreso de Nuevo Equipo</h2>
+            <form id="form-equipo">
+                <div>
+                    <label for="tipo">Tipo de equipo</label>
+                    <select id="tipo" required>
+                        <option value="" disabled selected>Seleccione un tipo de equipo</option>
+                        <option value="incubadora">Incubadora</option>
+                        <option value="estufa">Estufa</option>
+                        <option value="autoclave">Autoclave</option>
+                        <option value="termometro">Termómetro</option>
+                        <option value="microscopio">Microscopio</option>
+                        <option value="banioTermostatico">Baño termostático</option>
+                        <option value="balanza">Balanza</option>
+                        <option value="flujoLaminar">Flujo laminar</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="id">ID del equipo</label>
+                    <input type="text" id="id" list="id-list" required>
+                </div>
+                <div>
+                    <label for="nombre">Nombre del equipo</label>
+                    <input type="text" id="nombre" class="form-control" list="nombre-list" required>
+                </div>
+                <div>
+                    <label for="calibracion">Fecha de calibración</label>
+                    <input type="date" id="calibracion" class="form-control" required>
+                </div>
+                <div>>Fecha de verificación</label>
+                    <input type="date" id="verificacion" class="form-control" required>
+                </div>
+                <div>
+                    <label for="vencimiento">Vencimiento de calibración</label>
+                    <input type="date" id="vencimiento" class="form-control" required>
+                </div>
+                <div>
+                    <label for="imagen">Imagen del equipo (JPG, PNG)</label>
+                    <input type="file" id="imagen" class="form-control" accept="image/*">
+                </div>
+                <div>
+                    <label for="certificado">Certificado de calibración (PDF)</label>
+                    <input type="file" id="certificado" class="form-control" accept="application/pdf">
+                </div>
+                <div>
+                    <label for="manual">Manual del equipo (PDF)</label>
+                    <input type="file" id="manual" class="form-control" accept="application/pdf">
+                </div>
+                <div>
+                    <button type="submit">Guardar equipo</button>
+                </div>
+            </form>
+        </section>
 
     </main>
-    
-    <section id="formulario-ingreso" style="display: none; padding: 20px;">
-        <h2>Ingreso de nuevo equipo</h2>
-        <form id="form-equipo">
-            <label for="tipo">Tipo de equipo:</label>
-            <select id="tipo" required>
-                <option value="incubadora">Incubadora</option>
-                <option value="estufa">Estufa</option>
-                <option value="autoclave">Autoclave</option>
-            </select>
-            <br><br>
-
-            <label for="id">ID:</label>
-            <input type="text" id="id" required>
-            <br><br>
-
-            <label for="nombre">Nombre del equipo:</label>
-            <input type="text" id="nombre" required>
-            <br><br>
-
-            <label for="calibracion">Fecha de calibración:</label>
-            <input type="date" id="calibracion" required>
-            <br><br>
-
-            <label for="verificacion">Fecha de verificación:</label>
-            <input type="date" id="verificacion" required>
-            <br><br>
-
-            <label for="vencimiento">Vencimiento calibración:</label>
-            <input type="date" id="vencimiento" required>
-            <br><br>
-
-            <button type="submit">Guardar equipo</button>
-        </form>
-    </section>
 
     <footer>
         <hr class="linea-footer-superior">
@@ -131,6 +147,7 @@
         <h4> Todos los derechos son reservados. Copyright 2025</h4>
         <hr class="linea-footer-inferior">
     </footer>
+
 </body>
 
 </html>

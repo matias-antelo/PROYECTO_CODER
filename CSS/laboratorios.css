@@ -2,7 +2,6 @@ header {
     display: flex;
     flex-direction: column;
     background-color: #f6f8f4;
-
 }
 
 .header-top {
@@ -16,6 +15,10 @@ header {
 .logo {
     width: 100px;
     height: auto;
+}
+
+.logo2 {
+    align-content: center;
 }
 
 .titulo {
@@ -38,6 +41,7 @@ header {
 .navbar {
     background-color: #99968f;
     width: 100%;
+
 }
 
 .navbar ul {
@@ -45,12 +49,13 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     list-style: none;
+
     margin: 0;
     padding: 10px 0;
 }
 
 .navbar li {
-    margin: 0 40px;
+    margin: 0 35px;
 }
 
 .navbar li a:hover {
@@ -65,11 +70,12 @@ header {
 }
 
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff;
+
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
 }
 
 .grilla {
@@ -78,9 +84,9 @@ body {
     gap: 20px;
     align-items: center;
     padding: 20px;
-    /*border: 2px solid #ccc;*/
 
 }
+
 .grilla-izquierda {
     display: flex;
     justify-content: center;
@@ -91,6 +97,7 @@ body {
     width: 50%;
     height: auto;
 }
+
 .separador {
     background-color: #ccc;
     width: 2px;
@@ -103,31 +110,114 @@ body {
 }
 
 .pvolver a {
-  color: #342739;
-  text-decoration: none;
+    color: #342739;
+    text-decoration: none;
 }
 
 .pvolver {
-  text-align: right;
-  margin-right: 40px;
+    text-align: right;
+    margin-right: 40px;
 }
+
 .linea-footer-superior {
-  height: 16px;
-  background-color: #dedfdc;
-  border: none;
-  margin-top: 00px;
-  margin-bottom: 100px;
+    height: 16px;
+    background-color: #dedfdc;
+    border: none;
+    margin-top: 00px;
+    margin-bottom: 100px;
 }
 
 footer {
-  background-color: #99968f;
-  text-align: center;
+    background-color: #99968f;
+    text-align: center;
 }
 
 .linea-footer-inferior {
-  height: 40px;
-  background-color: #636160;
-  border: none;
-  margin-top: 100px;
-  margin-bottom: 0px;
+    height: 40px;
+    background-color: #636160;
+    border: none;
+    margin-top: 100px;
+    margin-bottom: 0px;
+}
+
+/* formulario para agregar equipos*/
+#formulario-ingreso {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+
+}
+
+#formulario-ingreso h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+/* Grid para el formulario: 2 columnas para pantallas grandes */
+#formulario-ingreso form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem 2rem;
+}
+
+/* Etiquetas */
+#formulario-ingreso label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #444;
+}
+
+/* Inputs y selects */
+#formulario-ingreso input[type="text"],
+#formulario-ingreso input[type="date"],
+#formulario-ingreso input[type="file"],
+#formulario-ingreso select {
+    width: 100%;
+    padding: 0.45rem 0.6rem;
+    border: 1.8px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #212529;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+#formulario-ingreso input[type="text"]:focus,
+#formulario-ingreso input[type="date"]:focus,
+#formulario-ingreso input[type="file"]:focus,
+#formulario-ingreso select:focus {
+    border-color: #0d6efd;
+    /* azul bootstrap */
+    outline: none;
+    box-shadow: 0 0 6px rgba(13, 110, 253, 0.4);
+}
+
+/* Botón */
+#formulario-ingreso button[type="submit"] {
+    grid-column: 1 / -1;
+    /* que ocupe todo el ancho */
+    padding: 0.6rem 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    background-color: #99968f;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#formulario-ingreso button[type="submit"]:hover {
+    background-color: #636160;
+}
+
+/* Responsive: en pantallas muy pequeñas 1 columna */
+@media (max-width: 480px) {
+    #formulario-ingreso form {
+        grid-template-columns: 1fr;
+    }
 }

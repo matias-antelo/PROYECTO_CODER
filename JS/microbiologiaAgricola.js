@@ -11,7 +11,9 @@ const flujoLaminar = [];
 document.addEventListener('DOMContentLoaded', () => {
     const ingresoLink = document.getElementById('link-ingreso');
     const formulario = document.getElementById('formulario-ingreso');
-    const form = document.getElementById('form-equipo');
+    const descripcionPrincipal = document.getElementById("descripcion-principal");
+    const descripcionPrincipal1 = document.getElementById("descripcion-principal1");
+    const descripcionPrincipal2 = document.getElementById("descripcion-principal2");
     const logoPrincipal = document.getElementById("logo-principal");
     const seccionIncubadora = document.getElementById("seccion-incubadora");
     const seccionEstufa = document.getElementById("seccion-estufa");
@@ -22,19 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const seccionBalanza = document.getElementById("seccion-balanza");
     const seccionFlujoLaminar = document.getElementById("seccion-flujolaminar");
 
-
-
     // Mostrar el formulario al hacer clic en "Ingreso de Equipo"
-    ingresoLink.addEventListener('click', (e) => {
-        e.preventDefault();
+    ingresoLink.addEventListener('click', () => {
         ocultarTodo();
         formulario.style.display = 'block';
     });
 
     // Manejar el envío del formulario
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
+    formulario.addEventListener('submit', () => {
         const tipo = document.getElementById('tipo').value.toLowerCase();
         const id = document.getElementById('id').value;
         const nombre = document.getElementById('nombre').value;
@@ -85,341 +82,102 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         alert("¡Equipo guardado con éxito!");
-        form.reset();
+        formulario.reset();
     });
 
-    // Ocultar imagen principal al hacer clic en cualquier opción del navbar
-    const navLinks = document.querySelectorAll("nav.navbar a");
-    const descripcionPrincipal = document.getElementById("descripcion-principal");
-    const descripcionPrincipal1 = document.getElementById("descripcion-principal1");
-    const descripcionPrincipal2 = document.getElementById("descripcion-principal2");
-    navLinks.forEach(link => {
-        link.addEventListener("click", () => {
-            if (logoPrincipal) logoPrincipal.style.display = "none";
-            if (descripcionPrincipal) descripcionPrincipal.style.display = "none";
-            if (descripcionPrincipal1) descripcionPrincipal1.style.display = "none";
-            if (descripcionPrincipal2) descripcionPrincipal2.style.display = "none";
-        });
-    });
     // Función para ocultar todas las secciones
     function ocultarTodo() {
-        if (formulario) formulario.style.display = 'none';
-        if (seccionIncubadora) seccionIncubadora.style.display = 'none';
-        if (seccionEstufa) seccionEstufa.style.display = 'none';
-        if (logoPrincipal) logoPrincipal.style.display = 'none';
-        if (seccionAutoclave) seccionAutoclave.style.display = 'none';
-        if (seccionTermometro) seccionTermometro.style.display = 'none';
-        if (seccionMicroscopio) seccionMicroscopio.style.display = 'none';
-        if (seccionBanioTermostatico) seccionBanioTermostatico.style.display = 'none';
-        if (seccionBalanza) seccionBalanza.style.display = 'none';
-        if (seccionFlujoLaminar) seccionFlujoLaminar.style.display = 'none';
+        formulario.style.display = 'none';
+        seccionIncubadora.style.display = 'none';
+        seccionEstufa.style.display = 'none';
+        logoPrincipal.style.display = 'none';
+        descripcionPrincipal.style.display = "none";
+        descripcionPrincipal1.style.display = "none";
+        descripcionPrincipal2.style.display = "none";
+        seccionAutoclave.style.display = 'none';
+        seccionTermometro.style.display = 'none';
+        seccionMicroscopio.style.display = 'none';
+        seccionBanioTermostatico.style.display = 'none';
+        seccionBalanza.style.display = 'none';
+        seccionFlujoLaminar.style.display = 'none';
     }
 
-    document.getElementById("link-estufa").addEventListener("click", (e) => {
-        e.preventDefault();
+
+    document.getElementById("link-estufa").addEventListener("click", () => {
         ocultarTodo();
         seccionEstufa.style.display = "block";
-        mostrarEstufa();
+        mostrarEquipos("estufa", estufa);
     });
 
-    document.getElementById("link-autoclave").addEventListener("click", (e) => {
-        e.preventDefault();
+    document.getElementById("link-autoclave").addEventListener("click", () => {
         ocultarTodo();
         seccionAutoclave.style.display = "block";
-        mostrarAutoclave();
+        mostrarEquipos("autoclave", autoclave);
     });
 
-    document.getElementById("link-termometro").addEventListener("click", (e) => {
-        e.preventDefault();
+    document.getElementById("link-termometro").addEventListener("click", () => {
         ocultarTodo();
         seccionTermometro.style.display = "block";
-        mostrarTermometro();
+        mostrarEquipos("termometro", termometro);
     });
 
-    document.getElementById("link-microscopio").addEventListener("click", (e) => {
-        e.preventDefault();
+    document.getElementById("link-microscopio").addEventListener("click", () => {
         ocultarTodo();
         seccionMicroscopio.style.display = "block";
-        mostrarMicroscopio();
+        mostrarEquipos("microscopio", microscopio);
     });
 
-    document.getElementById("link-banioTermostatico").addEventListener("click", (e) => {
-        e.preventDefault();
+    document.getElementById("link-banioTermostatico").addEventListener("click", () => {
         ocultarTodo();
         seccionBanioTermostatico.style.display = "block";
-        mostrarBanioTermostatico();
+        mostrarEquipos("baniotermostatico", banioTermostatico);
     });
 
-    document.getElementById("link-balanza").addEventListener("click", (e) => {
-        e.preventDefault();
+    document.getElementById("link-balanza").addEventListener("click", () => {
         ocultarTodo();
         seccionBalanza.style.display = "block";
-        mostrarBalanza();
+        mostrarEquipos("balanza", balanza);
     });
 
-    document.getElementById("link-flujoLaminar").addEventListener("click", (e) => {
-        e.preventDefault();
+    document.getElementById("link-flujoLaminar").addEventListener("click", () => {
         ocultarTodo();
         seccionFlujoLaminar.style.display = "block";
-        mostrarFlujoLaminar();
+        mostrarEquipos("flujolaminar", flujoLaminar);
     });
 
-    // Mostrar la sección de Incubadora
-
-    document.getElementById("link-incubadora").addEventListener("click", (e) => {
-        e.preventDefault();
+    document.getElementById(`link-incubadora`).addEventListener("click", () => {
         ocultarTodo();
         seccionIncubadora.style.display = "block";
-        mostrarIncubadora();
+        mostrarEquipos("incubadora", incubadora);
     });
 
-    // Función para mostrar el array de incubadoras
-    function mostrarIncubadora() {
-        const contenedor = document.getElementById("contenido-incubadora");
-        contenedor.innerHTML = ""; // Limpiar contenido anterior
-
-        if (incubadora.length === 0) {
-            contenedor.innerHTML = `<h2>No hay incubadoras registradas.</h2>`;
-        }
-        incubadora.forEach(equipo => {
-            const equipoHTML = `
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-                <p><strong>ID:</strong> ${equipo.ID}</p>
-                <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
-                <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
-                <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
-                <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
-                <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-            </div>
-        </div>
-        `;
-            contenedor.innerHTML += equipoHTML;
-        });
-    }
-    // Función para mostrar el array de Estufa
-    function mostrarEstufa() {
-        const contenedor = document.getElementById("contenido-estufa");
-        contenedor.innerHTML = ""; // Limpiar contenido anterior
-
-        if (estufa.length === 0) {
-            contenedor.innerHTML = `<h2>No hay estufas registradas.</h2>`;
-            return;
-        }
-        estufa.forEach(equipo => {
-            const equipoHTML = `
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-                <p><strong>ID:</strong> ${equipo.ID}</p>
-                <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
-                <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
-                <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
-                <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
-                <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-            </div>
-        </div>
-        `;
-            contenedor.innerHTML += equipoHTML;
-        });
-    }
-
-    // Función para mostrar el array de Flujo Laminar
-    function mostrarFlujoLaminar() {
-        const contenedor = document.getElementById("contenido-flujolaminar");
+    function mostrarEquipos(tipo, array) {
+        const contenedor = document.getElementById(`contenido-${tipo}`);
         contenedor.innerHTML = "";
 
-        if (flujoLaminar.length === 0) {
-            contenedor.innerHTML = `<h2>No hay flujos laminares registrados.</h2>`;
-            return;
+        if (array.length === 0) {
+            contenedor.innerHTML = `<h2>No hay ${tipo} registrado.</h2>`;
+        } else {
+            array.forEach(equipo => {
+                const equipoHTML = `
+                <div class="grilla">
+                    <div class="grilla-izquierda">
+                        ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
+                    </div>
+                    <div class="separador"></div>
+                    <div class="contenido">
+                        <p><strong>ID:</strong> ${equipo.ID}</p>
+                        <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
+                        <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
+                        <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
+                        <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
+                        <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
+                        <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
+                    </div>
+                </div>
+            `;
+                contenedor.innerHTML += equipoHTML;
+            });
         }
-        flujoLaminar.forEach(equipo => {
-            const equipoHTML = `
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-                <p><strong>ID:</strong> ${equipo.ID}</p>
-                <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
-                <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
-                <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
-                <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
-                <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-            </div>
-        </div>
-        `;
-            contenedor.innerHTML += equipoHTML;
-        });
     }
-
-    // Función para mostrar el array de Termómetro
-    function mostrarTermometro() {
-        const contenedor = document.getElementById("contenido-termometro");
-        contenedor.innerHTML = "";
-
-        if (termometro.length === 0) {
-            contenedor.innerHTML = `<h2>No hay termómetros registrados.</h2>`;
-            return;
-        }
-        termometro.forEach(equipo => {
-            const equipoHTML = `
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-                <p><strong>ID:</strong> ${equipo.ID}</p>
-                <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
-                <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
-                <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
-                <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
-                <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-            </div>
-        </div>
-        `;
-            contenedor.innerHTML += equipoHTML;
-        });
-    }
-
-    // Función para mostrar el array de Autoclave
-    function mostrarAutoclave() {
-        const contenedor = document.getElementById("contenido-autoclave");
-        contenedor.innerHTML = "";
-
-        if (autoclave.length === 0) {
-            contenedor.innerHTML = `<h2>No hay autoclaves registrados.</h2>`;
-            return;
-        }
-        autoclave.forEach(equipo => {
-            const equipoHTML = `
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-                <p><strong>ID:</strong> ${equipo.ID}</p>
-                <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
-                <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
-                <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
-                <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
-                <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-            </div>
-        </div>
-        `;
-            contenedor.innerHTML += equipoHTML;
-        });
-    }
-
-    // Función para mostrar el array de Microscopio
-    function mostrarMicroscopio() {
-        const contenedor = document.getElementById("contenido-microscopio");
-        contenedor.innerHTML = "";
-
-        if (microscopio.length === 0) {
-            contenedor.innerHTML = `<h2>No hay microscopios registrados.</h2>`;
-            return;
-        }
-        microscopio.forEach(equipo => {
-            const equipoHTML = `
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-                <p><strong>ID:</strong> ${equipo.ID}</p>
-                <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
-                <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
-                <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
-                <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
-                <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-            </div>
-        </div>
-        `;
-            contenedor.innerHTML += equipoHTML;
-        });
-    }
-
-    // Función para mostrar el array de Baño Termostático
-    function mostrarBanioTermostatico() {
-        const contenedor = document.getElementById("contenido-baniotermostatico");
-        contenedor.innerHTML = "";
-
-        if (banioTermostatico.length === 0) {
-            contenedor.innerHTML = `<h2>No hay baños termostáticos registrados.</h2>`;
-            return;
-        }
-        banioTermostatico.forEach(equipo => {
-            const equipoHTML = `
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-                <p><strong>ID:</strong> ${equipo.ID}</p>
-                <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
-                <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
-                <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
-                <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
-                <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-            </div>
-        </div>
-        `;
-            contenedor.innerHTML += equipoHTML;
-        });
-    }
-
-    // Función para mostrar el array de Balanza
-    function mostrarBalanza() {
-        const contenedor = document.getElementById("contenido-balanza");
-        contenedor.innerHTML = "";
-
-        if (balanza.length === 0) {
-            contenedor.innerHTML = `<h2>No hay balanzas registradas.</h2>`;
-            return;
-        }
-        balanza.forEach(equipo => {
-            const equipoHTML = `
-        <div class="grilla">
-            <div class="grilla-izquierda">
-                ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-            </div>
-            <div class="separador"></div>
-            <div class="contenido">
-                <p><strong>ID:</strong> ${equipo.ID}</p>
-                <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                <p><strong>Fecha Calibración:</strong> ${equipo["fecha calibracion"]}</p>
-                <p><strong>Fecha Verificación:</strong> ${equipo["fecha verificacion"]}</p>
-                <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
-                <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
-                <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-            </div>
-        </div>
-        `;
-            contenedor.innerHTML += equipoHTML;
-        });
-    }
-
 });
-
-
-

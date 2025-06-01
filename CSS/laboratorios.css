@@ -215,7 +215,6 @@ footer {
     background-color: #636160;
 }
 
-/* Estilos responsive generales */
 @media (max-width: 768px) {
 
     .header-top {
@@ -271,14 +270,18 @@ footer {
     }
 }
 
-/* Más específico para celulares muy pequeños */
+
 @media (max-width: 480px) {
     .titulo {
-        font-size: 0.95rem;
+        font-size: 0.5rem;
     }
 
     .navbar li {
         margin: 5px 0;
+        
+    }
+    .logo2 {
+        width: 40%;
     }
 
     #formulario-ingreso h2 {
@@ -286,9 +289,12 @@ footer {
     }
 
     footer h4 {
-        font-size: 0.85rem;
+        font-size: 0.30rem;
     }
     #formulario-ingreso form {
         grid-template-columns: 1fr;
+    }
+    .seccion {
+        font-size: 0.2rem;
     }
 }

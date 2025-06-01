@@ -215,8 +215,79 @@ footer {
     background-color: #636160;
 }
 
-/* Responsive: en pantallas muy pequeñas 1 columna */
+/* Estilos responsive generales */
+@media (max-width: 768px) {
+
+    .header-top {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 10px;
+    }
+
+    .titulo {
+        font-size: 1rem;
+        margin: 10px 0;
+    }
+
+    .logo {
+        width: 80px;
+    }
+
+    .home-icon {
+        margin-top: 10px;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+
+    .navbar li {
+        margin: 10px 0;
+    }
+
+    #logo-principal {
+        width: 70%;
+        max-width: 250px;
+        height: auto;
+        margin-top: 20px;
+    }
+
+    #descripcion-principal,
+    #descripcion-principal1,
+    #descripcion-principal2 {
+        font-size: 0.95rem;
+        padding: 0 15px;
+    }
+
+    #formulario-ingreso {
+        padding: 10px;
+    }
+
+    footer h4 {
+        font-size: 0.9rem;
+        padding: 0 10px;
+    }
+}
+
+/* Más específico para celulares muy pequeños */
 @media (max-width: 480px) {
+    .titulo {
+        font-size: 0.95rem;
+    }
+
+    .navbar li {
+        margin: 5px 0;
+    }
+
+    #formulario-ingreso h2 {
+        font-size: 1.4rem;
+    }
+
+    footer h4 {
+        font-size: 0.85rem;
+    }
     #formulario-ingreso form {
         grid-template-columns: 1fr;
     }

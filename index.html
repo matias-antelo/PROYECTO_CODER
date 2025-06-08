@@ -7,6 +7,7 @@
     <title>Proyecto CODERHOUSE</title>
     <link rel="stylesheet" href="CSS/index.css">
     <script src="JS/credenciales.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -21,16 +22,25 @@
 
         <img src="FOTOS/LOGO.png" alt="Logo del laboratorio" width="20%">
 
-
-        <div class="opciones">
-            <button onclick="pedirCredenciales('Microbiologia Agricola')">Microbiología Agrícola</button>
-            <p>La idea principal del trabajo es armar una plataforma para control de inventario de equipos de
-                laboratorio.</p>
-            <p>El index usa un prompt usando confirmaciones y alertas donde el usuario debera ingresar con usuario y
-                contraseña para acceder al área</p>
-            </p>
+        <div class="login-formulario">
+            <div>
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" required>
+            </div>
+            <div>
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" required>
+            </div>
+            <div class="opciones">
+                <button onclick="pedirCredenciales()">Iniciar Sesión</button>
+            </div>
+            
         </div>
-
+<p>La idea principal del trabajo es armar una plataforma para control de inventario de equipos de
+                laboratorio.</p>
+            <p>El index usa un input usando sweetalert donde el usuario debera ingresar con usuario y
+                contraseña para acceder</p>
+            </p>
     </main>
 
     <footer>

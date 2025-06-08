@@ -1,42 +1,38 @@
-function pedirCredenciales(area) {
+let intentos = 0;
+const topeIntentos = 3;
+
+function pedirCredenciales() {
   const usuarioCorrecto = "admin";
-  const contraseñaCorrecta = "1234";
-  const topeIntentos = 3;
+  const contrasenaCorrecta = "1234";
 
-  let usuario, contrasena;
-  let intentos = 0;
-  let accesoConcedido = false;
+  const usuarioIngresado = document.getElementById("usuario").value;
+  const contrasenaIngresada = document.getElementById("contrasena").value;
 
-  do {
-    usuario = prompt("Ingrese usuario:");
-    contrasena = prompt("Ingrese contraseña:");
-    intentos++;
-  } while (
-    usuario !== usuarioCorrecto &&
-    contrasena !== contraseñaCorrecta &&
-    intentos < topeIntentos
-  );
-
-  accesoConcedido = usuario === usuarioCorrecto && contrasena === contraseñaCorrecta;
-
-  if (accesoConcedido) {
-    confirm(`Bienvenido a ${area}!`);
-    //acceso = true;
-
-    // Redireccionar según el área elegida
-    switch (area) {
-      case "Microbiologia Agricola":
-        window.location.href = "MicrobiologiaAgricola.html";
-        break;
-      case "Quimica y Micotoxinas":
-        window.location.href = "QuimicaMicotoxinas.html";
-        break;
-      case "residuos de Plaguicidas":
-        window.location.href = "residuosPlaguicidas.html";
-        break;
-    }
+  if (intentos >= topeIntentos) {
+    Swal.fire({
+      icon: "error",
+      title: "Acceso bloqueado",
+      text: "Demasiados intentos fallidos.",
+      confirmButtonText: "Entendido"
+    });
   }
-  else {
-    alert("Acceso bloqueado. Demasiados intentos fallidos.");
+  else if (usuarioIngresado === usuarioCorrecto && contrasenaIngresada === contrasenaCorrecta) {
+    Swal.fire({
+      icon: "success",
+      title: "¡Bienvenido!",
+      text: "Has ingresado correctamente",
+      confirmButtonText: "Continuar"
+    }).then(() => {
+      window.location.href = "microbiologiaAgricola.html";
+    });
+  } else {
+   intentos++;
+    const restantes = topeIntentos - intentos;
+    Swal.fire({
+      icon: "warning",
+      title: "Credenciales incorrectas",
+      text: `Intentos restantes: ${restantes}`,
+      confirmButtonText: "Reintentar"
+    });
   }
 }

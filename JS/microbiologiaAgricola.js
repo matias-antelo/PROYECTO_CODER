@@ -1,12 +1,12 @@
 // Arrays de equipos
 const incubadora = JSON.parse(localStorage.getItem('incubadora')) || [];
-  const estufa = JSON.parse(localStorage.getItem('estufa')) || [];
-  const autoclave = JSON.parse(localStorage.getItem('autoclave')) || [];
-  const termometro = JSON.parse(localStorage.getItem('termometro')) || [];
-  const microscopio = JSON.parse(localStorage.getItem('microscopio')) || [];
-  const banioTermostatico = JSON.parse(localStorage.getItem('baniotermostatico')) || [];
-  const balanza = JSON.parse(localStorage.getItem('balanza')) || [];
-  const flujoLaminar = JSON.parse(localStorage.getItem('flujolaminar')) || [];
+const estufa = JSON.parse(localStorage.getItem('estufa')) || [];
+const autoclave = JSON.parse(localStorage.getItem('autoclave')) || [];
+const termometro = JSON.parse(localStorage.getItem('termometro')) || [];
+const microscopio = JSON.parse(localStorage.getItem('microscopio')) || [];
+const banioTermostatico = JSON.parse(localStorage.getItem('baniotermostatico')) || [];
+const balanza = JSON.parse(localStorage.getItem('balanza')) || [];
+const flujoLaminar = JSON.parse(localStorage.getItem('flujolaminar')) || [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const ingresoLink = document.getElementById('link-ingreso');
@@ -43,54 +43,75 @@ document.addEventListener('DOMContentLoaded', () => {
         const certificado = document.getElementById('certificado').files[0];
         const manual = document.getElementById('manual').files[0];
 
-        const nuevoEquipo = {
-            ID: id,
-            "nombre equipo": nombre,
-            "fecha calibracion": calibracion,
-            "fecha verificacion": verificacion,
-            "vencimiento calibracion": vencimiento,
-            imagenURL: imagenURL,
-            "certificado calibracion": certificado ? certificado.name : "Sin certificado",
-            "manual equipo": manual ? manual.name : "Sin manual"
-        };
+        const fechaCalibracion = new Date(calibracion);
+        const fechaVencimiento = new Date(vencimiento);
+
+        if (fechaVencimiento < fechaCalibracion) {
+            Toastify({
+                text: "⚠️ La fecha de vencimiento no puede ser anterior a la fecha de calibración.",
+                duration: 2000,
+                gravity: "center",
+                position: "center",
+                backgroundColor: "#e74c3c",
+                stopOnFocus: true
+            }).showToast();
+        } else {
+            const nuevoEquipo = {
+                ID: id,
+                "nombre equipo": nombre,
+                "fecha calibracion": calibracion,
+                "fecha verificacion": verificacion,
+                "vencimiento calibracion": vencimiento,
+                imagenURL: imagenURL,
+                "certificado calibracion": certificado ? certificado.name : "Sin certificado",
+                "manual equipo": manual ? manual.name : "Sin manual"
+            };
+        
 
         switch (tipo) {
             case 'incubadora':
-          incubadora.push(nuevoEquipo);
-          localStorage.setItem('incubadora', JSON.stringify(incubadora));
-          break;
-        case 'estufa':
-          estufa.push(nuevoEquipo);
-          localStorage.setItem('estufa', JSON.stringify(estufa));
-          break;
-        case 'autoclave':
-          autoclave.push(nuevoEquipo);
-          localStorage.setItem('autoclave', JSON.stringify(autoclave));
-          break;
-        case 'termometro':
-          termometro.push(nuevoEquipo);
-          localStorage.setItem('termometro', JSON.stringify(termometro));
-          break;
-        case 'microscopio':
-          microscopio.push(nuevoEquipo);
-          localStorage.setItem('microscopio', JSON.stringify(microscopio));
-          break;
-        case 'baniotermostatico':
-          banioTermostatico.push(nuevoEquipo);
-          localStorage.setItem('baniotermostatico', JSON.stringify(banioTermostatico));
-          break;
-        case 'balanza':
-          balanza.push(nuevoEquipo);
-          localStorage.setItem('balanza', JSON.stringify(balanza));
-          break;
-        case 'flujolaminar':
-          flujoLaminar.push(nuevoEquipo);
-          localStorage.setItem('flujolaminar', JSON.stringify(flujoLaminar));
-          break;
+                incubadora.push(nuevoEquipo);
+                localStorage.setItem('incubadora', JSON.stringify(incubadora));
+                break;
+            case 'estufa':
+                estufa.push(nuevoEquipo);
+                localStorage.setItem('estufa', JSON.stringify(estufa));
+                break;
+            case 'autoclave':
+                autoclave.push(nuevoEquipo);
+                localStorage.setItem('autoclave', JSON.stringify(autoclave));
+                break;
+            case 'termometro':
+                termometro.push(nuevoEquipo);
+                localStorage.setItem('termometro', JSON.stringify(termometro));
+                break;
+            case 'microscopio':
+                microscopio.push(nuevoEquipo);
+                localStorage.setItem('microscopio', JSON.stringify(microscopio));
+                break;
+            case 'baniotermostatico':
+                banioTermostatico.push(nuevoEquipo);
+                localStorage.setItem('baniotermostatico', JSON.stringify(banioTermostatico));
+                break;
+            case 'balanza':
+                balanza.push(nuevoEquipo);
+                localStorage.setItem('balanza', JSON.stringify(balanza));
+                break;
+            case 'flujolaminar':
+                flujoLaminar.push(nuevoEquipo);
+                localStorage.setItem('flujolaminar', JSON.stringify(flujoLaminar));
+                break;
         }
 
-        alert("¡Equipo guardado con éxito!");
+        Toastify({
+            text: "✅ ¡Equipo guardado con éxito!",
+            duration: 3000,
+            gravity: "center",
+            position: "center",
+            backgroundColor: "#27ae60"
+        }).showToast();
         formulario.reset();
+        }
     });
 
     // Función para ocultar todas las secciones

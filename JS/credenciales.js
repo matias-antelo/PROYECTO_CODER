@@ -44,17 +44,10 @@ xhr.withCredentials = true;
 
 xhr.addEventListener('readystatechange', function () {
   if (this.readyState === this.DONE) {
-
-    //document.getElementById("reloj-utc").textContent = this.responseText;
-const respuesta = JSON.parse(this.responseText);
-
-    // Obtener fecha y hora UTC desde la API
+    const respuesta = JSON.parse(this.responseText);
     const fechaUTC = new Date(respuesta.currentDateTime);
-
-    // Ajustar a UTC-3 (Argentina)
     fechaUTC.setHours(fechaUTC.getHours());
 
-    // Formatear fecha y hora para mostrar
     const opciones = {
       year: 'numeric',
       month: '2-digit',
@@ -66,8 +59,8 @@ const respuesta = JSON.parse(this.responseText);
     const fechaArgentina = fechaUTC.toLocaleString('es-AR', opciones);
 
     // Mostrar en el DOM
-    document.getElementById("reloj-utc").textContent = `Hora Argentina: ${fechaArgentina}`;
-  
+    document.getElementById("reloj-utc").textContent = fechaArgentina;
+
   }
 });
 

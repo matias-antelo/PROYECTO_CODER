@@ -26,7 +26,7 @@ function pedirCredenciales() {
       window.location.href = "microbiologiaAgricola.html";
     });
   } else {
-   intentos++;
+    intentos++;
     const restantes = topeIntentos - intentos;
     Swal.fire({
       icon: "warning",
@@ -36,3 +36,43 @@ function pedirCredenciales() {
     });
   }
 }
+
+const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener('readystatechange', function () {
+  if (this.readyState === this.DONE) {
+
+    //document.getElementById("reloj-utc").textContent = this.responseText;
+const respuesta = JSON.parse(this.responseText);
+
+    // Obtener fecha y hora UTC desde la API
+    const fechaUTC = new Date(respuesta.currentDateTime);
+
+    // Ajustar a UTC-3 (Argentina)
+    fechaUTC.setHours(fechaUTC.getHours());
+
+    // Formatear fecha y hora para mostrar
+    const opciones = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    };
+    const fechaArgentina = fechaUTC.toLocaleString('es-AR', opciones);
+
+    // Mostrar en el DOM
+    document.getElementById("reloj-utc").textContent = `Hora Argentina: ${fechaArgentina}`;
+  
+  }
+});
+
+xhr.open('GET', 'https://world-clock.p.rapidapi.com/json/utc/now');
+xhr.setRequestHeader('x-rapidapi-key', 'cf1c8d32a6msh5c6bb410c2a1639p159730jsn6b15c92760e2');
+xhr.setRequestHeader('x-rapidapi-host', 'world-clock.p.rapidapi.com');
+
+xhr.send(data);

@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Manejar el envío del formulario
-    formulario.addEventListener('submit', () => {
+    formulario.addEventListener('submit', (e) => {
+        e.preventDefault();
         const tipo = document.getElementById('tipo').value.toLowerCase();
         const id = document.getElementById('id').value;
         const nombre = document.getElementById('nombre').value;
@@ -66,52 +67,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 "certificado calibracion": certificado ? certificado.name : "Sin certificado",
                 "manual equipo": manual ? manual.name : "Sin manual"
             };
-        
 
-        switch (tipo) {
-            case 'incubadora':
-                incubadora.push(nuevoEquipo);
-                localStorage.setItem('incubadora', JSON.stringify(incubadora));
-                break;
-            case 'estufa':
-                estufa.push(nuevoEquipo);
-                localStorage.setItem('estufa', JSON.stringify(estufa));
-                break;
-            case 'autoclave':
-                autoclave.push(nuevoEquipo);
-                localStorage.setItem('autoclave', JSON.stringify(autoclave));
-                break;
-            case 'termometro':
-                termometro.push(nuevoEquipo);
-                localStorage.setItem('termometro', JSON.stringify(termometro));
-                break;
-            case 'microscopio':
-                microscopio.push(nuevoEquipo);
-                localStorage.setItem('microscopio', JSON.stringify(microscopio));
-                break;
-            case 'baniotermostatico':
-                banioTermostatico.push(nuevoEquipo);
-                localStorage.setItem('baniotermostatico', JSON.stringify(banioTermostatico));
-                break;
-            case 'balanza':
-                balanza.push(nuevoEquipo);
-                localStorage.setItem('balanza', JSON.stringify(balanza));
-                break;
-            case 'flujolaminar':
-                flujoLaminar.push(nuevoEquipo);
-                localStorage.setItem('flujolaminar', JSON.stringify(flujoLaminar));
-                break;
+
+            switch (tipo) {
+                case 'incubadora':
+                    incubadora.push(nuevoEquipo);
+                    localStorage.setItem('incubadora', JSON.stringify(incubadora));
+                    break;
+                case 'estufa':
+                    estufa.push(nuevoEquipo);
+                    localStorage.setItem('estufa', JSON.stringify(estufa));
+                    break;
+                case 'autoclave':
+                    autoclave.push(nuevoEquipo);
+                    localStorage.setItem('autoclave', JSON.stringify(autoclave));
+                    break;
+                case 'termometro':
+                    termometro.push(nuevoEquipo);
+                    localStorage.setItem('termometro', JSON.stringify(termometro));
+                    break;
+                case 'microscopio':
+                    microscopio.push(nuevoEquipo);
+                    localStorage.setItem('microscopio', JSON.stringify(microscopio));
+                    break;
+                case 'baniotermostatico':
+                    banioTermostatico.push(nuevoEquipo);
+                    localStorage.setItem('baniotermostatico', JSON.stringify(banioTermostatico));
+                    break;
+                case 'balanza':
+                    balanza.push(nuevoEquipo);
+                    localStorage.setItem('balanza', JSON.stringify(balanza));
+                    break;
+                case 'flujolaminar':
+                    flujoLaminar.push(nuevoEquipo);
+                    localStorage.setItem('flujolaminar', JSON.stringify(flujoLaminar));
+                    break;
+            }
+
+            Toastify({
+                text: "✅ ¡Equipo guardado con éxito!",
+                duration: 3000,
+                gravity: "center",
+                position: "center",
+                backgroundColor: "#27ae60"
+            }).showToast();
+            formulario.reset();
         }
 
-        Toastify({
-            text: "✅ ¡Equipo guardado con éxito!",
-            duration: 3000,
-            gravity: "center",
-            position: "center",
-            backgroundColor: "#27ae60"
-        }).showToast();
-        formulario.reset();
-        }
     });
 
     // Función para ocultar todas las secciones
@@ -130,54 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
         seccionBalanza.style.display = 'none';
         seccionFlujoLaminar.style.display = 'none';
     }
+    const tipos = ['incubadora', 'estufa', 'autoclave', 'termometro', 'microscopio', 'baniotermostatico', 'balanza', 'flujolaminar'];
 
-
-    document.getElementById("link-estufa").addEventListener("click", () => {
-        ocultarTodo();
-        seccionEstufa.style.display = "block";
-        mostrarEquipos("estufa", estufa);
-    });
-
-    document.getElementById("link-autoclave").addEventListener("click", () => {
-        ocultarTodo();
-        seccionAutoclave.style.display = "block";
-        mostrarEquipos("autoclave", autoclave);
-    });
-
-    document.getElementById("link-termometro").addEventListener("click", () => {
-        ocultarTodo();
-        seccionTermometro.style.display = "block";
-        mostrarEquipos("termometro", termometro);
-    });
-
-    document.getElementById("link-microscopio").addEventListener("click", () => {
-        ocultarTodo();
-        seccionMicroscopio.style.display = "block";
-        mostrarEquipos("microscopio", microscopio);
-    });
-
-    document.getElementById("link-banioTermostatico").addEventListener("click", () => {
-        ocultarTodo();
-        seccionBanioTermostatico.style.display = "block";
-        mostrarEquipos("baniotermostatico", banioTermostatico);
-    });
-
-    document.getElementById("link-balanza").addEventListener("click", () => {
-        ocultarTodo();
-        seccionBalanza.style.display = "block";
-        mostrarEquipos("balanza", balanza);
-    });
-
-    document.getElementById("link-flujoLaminar").addEventListener("click", () => {
-        ocultarTodo();
-        seccionFlujoLaminar.style.display = "block";
-        mostrarEquipos("flujolaminar", flujoLaminar);
-    });
-
-    document.getElementById(`link-incubadora`).addEventListener("click", () => {
-        ocultarTodo();
-        seccionIncubadora.style.display = "block";
-        mostrarEquipos("incubadora", incubadora);
+    tipos.forEach(tipo => {
+        document.getElementById(`link-${tipo}`).addEventListener("click", () => {
+            ocultarTodo();
+            document.getElementById(`seccion-${tipo}`).style.display = "block";
+            mostrarEquipos(tipo, eval(tipo));  // eval no es lo ideal, pero funciona acá
+        });
     });
 
     function mostrarEquipos(tipo, array) {

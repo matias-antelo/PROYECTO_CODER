@@ -132,25 +132,41 @@ document.addEventListener('DOMContentLoaded', () => {
         seccionBalanza.style.display = 'none';
         seccionFlujoLaminar.style.display = 'none';
     }
+    const dataMap = {
+    incubadora,
+    estufa,
+    autoclave,
+    termometro,
+    microscopio,
+    baniotermostatico: banioTermostatico,
+    balanza,
+    flujolaminar: flujoLaminar
+};
     const tipos = ['incubadora', 'estufa', 'autoclave', 'termometro', 'microscopio', 'baniotermostatico', 'balanza', 'flujolaminar'];
 
     tipos.forEach(tipo => {
-        document.getElementById(`link-${tipo}`).addEventListener("click", () => {
+    try {
+        const link = document.getElementById(`link-${tipo}`);
+        link.addEventListener("click", () => {
             ocultarTodo();
             document.getElementById(`seccion-${tipo}`).style.display = "block";
-            mostrarEquipos(tipo, eval(tipo));  // eval no es lo ideal, pero funciona acá
+            mostrarEquipos(tipo, dataMap[tipo]); // ⚠️ Podés cambiar eval por un mapa si querés más robustez
         });
-    });
+    } catch (error) {
+        console.warn(`⚠️ No se pudo agregar el evento para link-${tipo}:`, error);
+    }
+});
 
-    function mostrarEquipos(tipo, array) {
-        const contenedor = document.getElementById(`contenido-${tipo}`);
-        contenedor.innerHTML = "";
 
-        if (array.length === 0) {
-            contenedor.innerHTML = `<h2>No hay ${tipo} registrado.</h2>`;
-        } else {
-            array.forEach(equipo => {
-                const equipoHTML = `
+        function mostrarEquipos(tipo, array) {
+            const contenedor = document.getElementById(`contenido-${tipo}`);
+            contenedor.innerHTML = "";
+
+            if (array.length === 0) {
+                contenedor.innerHTML = `<h2>No hay ${tipo} registrado.</h2>`;
+            } else {
+                array.forEach(equipo => {
+                    const equipoHTML = `
                 <div class="grilla">
                     <div class="grilla-izquierda">
                         ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
@@ -167,8 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-                contenedor.innerHTML += equipoHTML;
-            });
+                    contenedor.innerHTML += equipoHTML;
+                });
+            }
         }
-    }
-});
+    })

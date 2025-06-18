@@ -23,7 +23,7 @@ function pedirCredenciales() {
       text: "Has ingresado correctamente",
       confirmButtonText: "Continuar"
     }).then(() => {
-      window.location.href = "microbiologiaAgricola.html";
+      window.location.href = "MicrobiologiaAgricola.html";
     });
   } else {
     intentos++;

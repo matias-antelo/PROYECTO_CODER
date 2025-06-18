@@ -4,9 +4,9 @@ const estufa = JSON.parse(localStorage.getItem('estufa')) || [];
 const autoclave = JSON.parse(localStorage.getItem('autoclave')) || [];
 const termometro = JSON.parse(localStorage.getItem('termometro')) || [];
 const microscopio = JSON.parse(localStorage.getItem('microscopio')) || [];
-const banioTermostatico = JSON.parse(localStorage.getItem('baniotermostatico')) || [];
+const banio = JSON.parse(localStorage.getItem('banio')) || [];
 const balanza = JSON.parse(localStorage.getItem('balanza')) || [];
-const flujoLaminar = JSON.parse(localStorage.getItem('flujolaminar')) || [];
+const flujo = JSON.parse(localStorage.getItem('flujo')) || [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const ingresoLink = document.getElementById('link-ingreso');
@@ -20,9 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const seccionAutoclave = document.getElementById("seccion-autoclave");
     const seccionTermometro = document.getElementById("seccion-termometro");
     const seccionMicroscopio = document.getElementById("seccion-microscopio");
-    const seccionBanioTermostatico = document.getElementById("seccion-baniotermostatico");
+    const seccionBanio = document.getElementById("seccion-banio");
     const seccionBalanza = document.getElementById("seccion-balanza");
-    const seccionFlujoLaminar = document.getElementById("seccion-flujolaminar");
+    const seccionFlujo = document.getElementById("seccion-flujo");
 
     // Mostrar el formulario al hacer clic en "Ingreso de Equipo"
     ingresoLink.addEventListener('click', () => {
@@ -90,17 +90,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     microscopio.push(nuevoEquipo);
                     localStorage.setItem('microscopio', JSON.stringify(microscopio));
                     break;
-                case 'baniotermostatico':
-                    banioTermostatico.push(nuevoEquipo);
-                    localStorage.setItem('baniotermostatico', JSON.stringify(banioTermostatico));
+                case 'banio':
+                    banio.push(nuevoEquipo);
+                    localStorage.setItem('banio', JSON.stringify(banio));
                     break;
                 case 'balanza':
                     balanza.push(nuevoEquipo);
                     localStorage.setItem('balanza', JSON.stringify(balanza));
                     break;
-                case 'flujolaminar':
-                    flujoLaminar.push(nuevoEquipo);
-                    localStorage.setItem('flujolaminar', JSON.stringify(flujoLaminar));
+                case 'flujo':
+                    flujo.push(nuevoEquipo);
+                    localStorage.setItem('flujo', JSON.stringify(flujo));
                     break;
             }
 
@@ -128,9 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
         seccionAutoclave.style.display = 'none';
         seccionTermometro.style.display = 'none';
         seccionMicroscopio.style.display = 'none';
-        seccionBanioTermostatico.style.display = 'none';
+        seccionBanio.style.display = 'none';
         seccionBalanza.style.display = 'none';
-        seccionFlujoLaminar.style.display = 'none';
+        seccionFlujo.style.display = 'none';
     }
     const dataMap = {
     incubadora,
@@ -138,11 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
     autoclave,
     termometro,
     microscopio,
-    baniotermostatico: banioTermostatico,
+    banio,
     balanza,
-    flujolaminar: flujoLaminar
+    flujo,
 };
-    const tipos = ['incubadora', 'estufa', 'autoclave', 'termometro', 'microscopio', 'baniotermostatico', 'balanza', 'flujolaminar'];
+    const tipos = ['incubadora', 'estufa', 'autoclave', 'termometro', 'microscopio', 'banio', 'balanza', 'flujo'];
 
     tipos.forEach(tipo => {
     try {
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener("click", () => {
             ocultarTodo();
             document.getElementById(`seccion-${tipo}`).style.display = "block";
-            mostrarEquipos(tipo, dataMap[tipo]); // ⚠️ Podés cambiar eval por un mapa si querés más robustez
+            mostrarEquipos(tipo, dataMap[tipo]); 
         });
     } catch (error) {
         console.warn(`⚠️ No se pudo agregar el evento para link-${tipo}:`, error);
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             contenedor.innerHTML = "";
 
             if (array.length === 0) {
-                contenedor.innerHTML = `<h2>No hay ${tipo} registrado.</h2>`;
+                contenedor.innerHTML = `<h2>No hay equipos registrados.</h2>`;
             } else {
                 array.forEach(equipo => {
                     const equipoHTML = `

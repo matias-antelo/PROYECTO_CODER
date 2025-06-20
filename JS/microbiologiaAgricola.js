@@ -133,40 +133,41 @@ document.addEventListener('DOMContentLoaded', () => {
         seccionFlujo.style.display = 'none';
     }
     const dataMap = {
-    incubadora,
-    estufa,
-    autoclave,
-    termometro,
-    microscopio,
-    banio,
-    balanza,
-    flujo,
-};
+        incubadora,
+        estufa,
+        autoclave,
+        termometro,
+        microscopio,
+        banio,
+        balanza,
+        flujo,
+    };
     const tipos = ['incubadora', 'estufa', 'autoclave', 'termometro', 'microscopio', 'banio', 'balanza', 'flujo'];
 
     tipos.forEach(tipo => {
-    try {
-        const link = document.getElementById(`link-${tipo}`);
-        link.addEventListener("click", () => {
-            ocultarTodo();
-            document.getElementById(`seccion-${tipo}`).style.display = "block";
-            mostrarEquipos(tipo, dataMap[tipo]); 
-        });
-    } catch (error) {
-        console.warn(`⚠️ No se pudo agregar el evento para link-${tipo}:`, error);
-    }
-});
+        try {
+            const link = document.getElementById(`link-${tipo}`);
+            link.addEventListener("click", () => {
+                ocultarTodo();
+                document.getElementById(`seccion-${tipo}`).style.display = "block";
+                mostrarEquipos(tipo, dataMap[tipo]);
+            });
+        } catch (error) {
+            console.warn(`⚠️ No se pudo agregar el evento para link-${tipo}:`, error);
+        }
+    });
 
 
-        function mostrarEquipos(tipo, array) {
-            const contenedor = document.getElementById(`contenido-${tipo}`);
-            contenedor.innerHTML = "";
+    function mostrarEquipos(tipo, array) {
+        const contenedor = document.getElementById(`contenido-${tipo}`);
+        contenedor.innerHTML = "";
 
-            if (array.length === 0) {
-                contenedor.innerHTML = `<h2>No hay equipos registrados.</h2>`;
-            } else {
-                array.forEach(equipo => {
-                    const equipoHTML = `
+        if (array.length === 0) {
+            contenedor.innerHTML = `<h2>No hay equipos registrados.</h2>`;
+        } else {
+
+            array.forEach((equipo, index) => {
+                const equipoHTML = `
                 <div class="grilla">
                     <div class="grilla-izquierda">
                         ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
@@ -180,11 +181,55 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p><strong>Vencimiento Calibración:</strong> ${equipo["vencimiento calibracion"]}</p>
                         <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
                         <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-                    </div>
+                       <div class="botones-equipo">
+                           <!--<button class="btn-editar" data-tipo="${tipo}" data-index="${index}">Editar</button>-->
+                            <button class="btn-eliminar" data-tipo="${tipo}" data-index="${index}">Eliminar</button>
+                        </div>
+                        
+                        </div>
                 </div>
             `;
-                    contenedor.innerHTML += equipoHTML;
-                });
-            }
+                contenedor.innerHTML += equipoHTML;
+            });
         }
-    })
+    }
+
+const mainContent = document.querySelector('main');
+
+mainContent.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-eliminar')) {
+        const tipo = e.target.dataset.tipo;
+        const index = parseInt(e.target.dataset.index, 10);
+        eliminarEquipo(tipo, index);
+    }
+});
+
+function eliminarEquipo(tipo, index) {
+   Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción eliminará el equipo.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const array = JSON.parse(localStorage.getItem(tipo)) || [];
+            array.splice(index, 1);
+            localStorage.setItem(tipo, JSON.stringify(array));
+
+            Toastify({
+                text: "🗑️ Equipo eliminado",
+                duration: 2000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#e74c3c",
+            }).showToast();
+
+            mostrarEquipos(tipo, array);
+        }
+    }); 
+}
+})

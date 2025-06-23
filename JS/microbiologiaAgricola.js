@@ -233,3 +233,6 @@ function eliminarEquipo(tipo, index) {
     }); 
 }
 })
+
+//probando nuevo ususario   
+console.log("hola")

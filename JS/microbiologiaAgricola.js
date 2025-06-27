@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
+//evento de click para editar
     document.querySelector('main').addEventListener('click', async (e) => {
         if (e.target.classList.contains('btn-editar')) {
             const tipo = e.target.dataset.tipo;

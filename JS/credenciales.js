@@ -1,12 +1,20 @@
 let intentos = 0;
 const topeIntentos = 3;
 
+//funcion para pedir credenciales para ingreso
 function pedirCredenciales() {
-  const usuarioCorrecto = "admin";
-  const contrasenaCorrecta = "1234";
-
+  
   const usuarioIngresado = document.getElementById("usuario").value;
   const contrasenaIngresada = document.getElementById("contrasena").value;
+
+  fetch('JSON/usuario.json')
+    .then(response => {
+      if (!response.ok) throw new Error('No se pudo cargar el archivo de usuarios');
+      return response.json();
+    })
+    .then(data => {
+      const usuarioCorrecto = data.usuarioCorrecto;
+      const contrasenaCorrecta = data.contrasenaCorrecta;
 
   if (intentos >= topeIntentos) {
     Swal.fire({
@@ -34,9 +42,19 @@ function pedirCredenciales() {
       text: `Intentos restantes: ${restantes}`,
       confirmButtonText: "Reintentar"
     });
+      }
+    })
+      .catch(error => {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron verificar las credenciales.",
+        footer: error.message
+      });
+    });
   }
-}
 
+//se crearon las funciones para configurar el reloj y llamado de RAPIDID de horario UTC
 fetch('https://world-clock.p.rapidapi.com/json/utc/now', {
   method: "GET",
   headers: {
@@ -61,3 +79,4 @@ fetch('https://world-clock.p.rapidapi.com/json/utc/now', {
   document.getElementById("reloj-utc").textContent = "Error al cargar la hora";
   console.error(err);
 });
+

@@ -159,44 +159,46 @@ document.addEventListener('DOMContentLoaded', () => {
         if (array.length === 0) {
             contenedor.innerHTML = `<h2>No hay equipos registrados.</h2>`;
         } else {
-
             array.forEach((equipo, index) => {
                 const equipoHTML = `
-                <div class="grilla">
-                    <div class="grilla-izquierda">
-                        ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-                    </div>
-                    <div class="separador"></div>
-                    <div class="contenido">
-                        <p><strong>ID:</strong> ${equipo.ID}</p>
-                        <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
-                        <p>
-                        <strong>Fecha Calibración:</strong>
-                        <span class="editable" data-key="fecha calibracion">${equipo["fecha calibracion"]}</span>
-                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="fecha calibracion">Editar</button>
-                        </p>
-                        <p>
-                        <strong>Fecha Verificación:</strong> 
-                        <span class="editable" data-key="fecha verificacion">${equipo["fecha verificacion"]}</span>
-                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="fecha verificacion">Editar</button>
-                        </p>
-                        <p>
-                        <strong>Vencimiento Calibración:</strong>
-                        <span class="editable" data-key="vencimiento calibracion">${equipo["vencimiento calibracion"]}</span>
-                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="vencimiento calibracion">Editar</button>
-                        </p>
-                        <p>
-                        <strong>Certificado:</strong>
-                        <span class="editable" data-key="certificado calibracion">${equipo["certificado calibracion"]}</span>
-                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="certificado calibracion">Editar</button>
-                        </p>
-                        <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
-                        <div class="botones-equipo">
-                        <button class="btn-eliminar" data-tipo="${tipo}" data-index="${index}">Eliminar</button>
-                        </div>
-                        
-                        </div>
+            <div class="grilla">
+                <div class="grilla-izquierda">
+                    ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
                 </div>
+                <div class="separador"></div>
+                <div class="contenido">
+                    <p><strong>ID:</strong> ${equipo.ID}</p>
+                    <p>
+                    <strong>Nombre:</strong> ${equipo["nombre equipo"]}
+                    </p>
+                    <p>
+                        <strong>Fecha Calibración:</strong>
+                        <span>${equipo["fecha calibracion"]}</span>
+                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="fecha calibracion">Editar</button>
+
+                    </p>
+                    <p>
+                        <strong>Fecha Verificación:</strong> 
+                        <span>${equipo["fecha verificacion"]}</span>
+                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="fecha verificacion">Editar</button>
+                    </p>
+                    <p>
+                        <strong>Vencimiento Calibración:</strong>
+                        <span>${equipo["vencimiento calibracion"]}</span>
+                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="vencimiento calibracion">Editar</button>
+                    </p>
+                    <p>
+                        <strong>Certificado:</strong>${equipo["certificado calibracion"]}
+                        
+                    </p>
+                    <p>
+                        <strong>Manual:</strong> ${equipo["manual equipo"]}
+                    </p>
+                    <div class="botones-equipo">
+                        <button class="btn-eliminar" data-tipo="${tipo}" data-index="${index}">Eliminar</button>
+                    </div>
+                </div>
+            </div>
             `;
                 contenedor.innerHTML += equipoHTML;
             });
@@ -241,53 +243,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    mainContent.addEventListener('click', (e) => {
-        // Modo edición
+
+    document.querySelector('main').addEventListener('click', async (e) => {
         if (e.target.classList.contains('btn-editar')) {
-            const p = e.target.closest('p');
-            const span = p.querySelector('.editable');
-            const valorActual = span.textContent;
-            const campo = e.target.dataset.campo;
-
-            // Reemplazamos el span por input
-            span.outerHTML = `<input type="text" class="editable-input" data-key="${campo}" value="${valorActual}">`;
-
-            // Cambiamos el botón
-            e.target.textContent = "Guardar";
-            e.target.classList.remove("btn-editar");
-            e.target.classList.add("btn-guardar");
-        }
-
-        // Guardar edición
-        if (e.target.classList.contains('btn-guardar')) {
             const tipo = e.target.dataset.tipo;
             const index = parseInt(e.target.dataset.index, 10);
             const campo = e.target.dataset.campo;
 
-            const p = e.target.closest('p');
-            const input = p.querySelector('.editable-input');
-            const nuevoValor = input.value;
+            const array = JSON.parse(localStorage.getItem(tipo)) || [];
+            const equipo = array[index];
 
-            // Actualizar en localStorage
-            const equipos = JSON.parse(localStorage.getItem(tipo)) || [];
-            if (equipos[index]) {
-                equipos[index][campo] = nuevoValor;
-                localStorage.setItem(tipo, JSON.stringify(equipos));
+            const esFecha = ['fecha', 'vencimiento', 'verificacion'].some(w => campo.toLowerCase().includes(w));
+
+            const { value: nuevoValor } = await Swal.fire({
+                title: `Modificar ${campo}`,
+                input: esFecha ? 'date' : 'text',
+                inputLabel: `Nuevo valor para ${campo}`,
+                inputValue: equipo[campo] || '',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Por favor, ingresa un valor';
+                    }
+
+                    if (campo === 'vencimiento calibracion') {
+                        const fechaCalibracion = new Date(equipo['fecha calibracion']);
+                        const nuevaFecha = new Date(value);
+
+                        if (nuevaFecha < fechaCalibracion) {
+                            return '⚠️ La fecha de vencimiento no puede ser anterior a la fecha de calibración.';
+                        }
+                    }
+                    return null;
+                }
+            });;
+
+            if (nuevoValor) {
+                equipo[campo] = nuevoValor;
+
+                // Guardar en localStorage el array modificado
+                localStorage.setItem(tipo, JSON.stringify(array));
+
+                // Mostrar la lista actualizada
+                mostrarEquipos(tipo, array);
+
+                Toastify({
+                    text: `✅ ${campo} actualizado correctamente`,
+                    duration: 4000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#27ae60"
+                }).showToast();
             }
-
-            // Volver a mostrar como texto
-            input.outerHTML = `<span class="editable" data-key="${campo}">${nuevoValor}</span>`;
-            e.target.textContent = "Editar";
-            e.target.classList.remove("btn-guardar");
-            e.target.classList.add("btn-editar");
-
-            Toastify({
-                text: "✅ Campo actualizado",
-                duration: 2000,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "#27ae60",
-            }).showToast();
         }
     });
+
 })

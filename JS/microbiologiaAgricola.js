@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const ingresoLink = document.getElementById('link-ingreso');
     const formulario = document.getElementById('formulario-ingreso');
     const logoPrincipal = document.getElementById("logo-principal");
-
     const secciones = tipos.reduce((equipos, tipo) => {
         equipos[tipo] = document.getElementById(`seccion-${tipo}`);
         return equipos;

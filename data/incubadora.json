@@ -1,0 +1,10 @@
+[{
+    "ID": "INC001",
+    "nombre equipo": "Incubadora Biotech 3000",
+    "fecha calibracion": "2024-06-15",
+    "fecha verificacion": "2024-06-20",
+    "vencimiento calibracion": "2025-06-15",
+    "imagenURL": "" ,
+    "certificado calibracion": "certificado_INC001.pdf",
+    "manual equipo": "manual_INC001.pdf"
+  }]

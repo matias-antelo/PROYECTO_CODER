@@ -7,7 +7,7 @@ function pedirCredenciales() {
   const usuarioIngresado = document.getElementById("usuario").value;
   const contrasenaIngresada = document.getElementById("contrasena").value;
 
-  fetch('JSON/usuario.json')
+  fetch('data/usuario.json')
     .then(response => {
       if (!response.ok) throw new Error('No se pudo cargar el archivo de usuarios');
       return response.json();

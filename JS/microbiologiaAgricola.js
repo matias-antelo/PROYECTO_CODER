@@ -1,35 +1,107 @@
-// Arrays de equipos
-const incubadora = JSON.parse(localStorage.getItem('incubadora')) || [];
-const estufa = JSON.parse(localStorage.getItem('estufa')) || [];
-const autoclave = JSON.parse(localStorage.getItem('autoclave')) || [];
-const termometro = JSON.parse(localStorage.getItem('termometro')) || [];
-const microscopio = JSON.parse(localStorage.getItem('microscopio')) || [];
-const banio = JSON.parse(localStorage.getItem('banio')) || [];
-const balanza = JSON.parse(localStorage.getItem('balanza')) || [];
-const flujo = JSON.parse(localStorage.getItem('flujo')) || [];
+// Objeto para almacenar los arrays 
+const dataMap = {};
+const tipos = ['incubadora', 'estufa', 'autoclave', 'termometro', 'microscopio', 'banio', 'balanza', 'flujo'];
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Cargar todos los arrays desde archivos JSON usando fetch
+    await Promise.all(tipos.map(async (tipo) => {
+        try {
+            const localData = JSON.parse(localStorage.getItem(tipo));
+            if (localData) {
+                dataMap[tipo] = localData;
+            } else {
+                const response = await fetch(`./data/${tipo}.json`);
+                const jsonData = await response.json();
+                dataMap[tipo] = jsonData;
+                localStorage.setItem(tipo, JSON.stringify(jsonData));
+            }
+        } catch (error) {
+            console.warn(`❌ Error cargando ${tipo}.json:`, error);
+            dataMap[tipo] = [];
+        }
+    }));
+
+    // Elementos del DOM
     const ingresoLink = document.getElementById('link-ingreso');
     const formulario = document.getElementById('formulario-ingreso');
     const logoPrincipal = document.getElementById("logo-principal");
-    const seccionIncubadora = document.getElementById("seccion-incubadora");
-    const seccionEstufa = document.getElementById("seccion-estufa");
-    const seccionAutoclave = document.getElementById("seccion-autoclave");
-    const seccionTermometro = document.getElementById("seccion-termometro");
-    const seccionMicroscopio = document.getElementById("seccion-microscopio");
-    const seccionBanio = document.getElementById("seccion-banio");
-    const seccionBalanza = document.getElementById("seccion-balanza");
-    const seccionFlujo = document.getElementById("seccion-flujo");
 
-    // Mostrar el formulario al hacer clic en "Ingreso de Equipo"
+    const secciones = tipos.reduce((equipos, tipo) => {
+        equipos[tipo] = document.getElementById(`seccion-${tipo}`);
+        return equipos;
+    }, {});
+
+    // Ocultar todas las secciones
+    function ocultarTodo() {
+        formulario.style.display = 'none';
+        logoPrincipal.style.display = 'none';
+        Object.values(secciones).forEach(sec => sec.style.display = 'none');
+    }
+
+    // Mostrar equipos en pantalla
+    function mostrarEquipos(tipo, array) {
+        const contenedor = document.getElementById(`contenido-${tipo}`);
+        contenedor.innerHTML = "";
+
+        if (!array || array.length === 0) {
+            contenedor.innerHTML = `<h2>No hay equipos registrados.</h2>`;
+            return;
+        }
+
+        array.forEach((equipo, index) => {
+            const equipoHTML = `
+                <div class="grilla">
+                    <div class="grilla-izquierda">
+                        ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
+                    </div>
+                    <div class="separador"></div>
+                    <div class="contenido">
+                        <p><strong>ID:</strong> ${equipo.ID}</p>
+                        <p><strong>Nombre:</strong> ${equipo["nombre equipo"]}</p>
+                        <p>
+                            <strong>Fecha Calibración:</strong> <span>${equipo["fecha calibracion"]}</span>
+                            <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="fecha calibracion">Editar</button>
+                        </p>
+                        <p>
+                            <strong>Fecha Verificación:</strong> <span>${equipo["fecha verificacion"]}</span>
+                            <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="fecha verificacion">Editar</button>
+                        </p>
+                        <p>
+                            <strong>Vencimiento Calibración:</strong> <span>${equipo["vencimiento calibracion"]}</span>
+                            <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="vencimiento calibracion">Editar</button>
+                        </p>
+                        <p><strong>Certificado:</strong> ${equipo["certificado calibracion"]}</p>
+                        <p><strong>Manual:</strong> ${equipo["manual equipo"]}</p>
+                        <div class="botones-equipo">
+                            <button class="btn-eliminar" data-tipo="${tipo}" data-index="${index}">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            contenedor.innerHTML += equipoHTML;
+        });
+    }
+
+    // Mostrar sección al hacer clic en navbar
+    tipos.forEach(tipo => {
+        const link = document.getElementById(`link-${tipo}`);
+        link?.addEventListener('click', () => {
+            ocultarTodo();
+            secciones[tipo].style.display = 'block';
+            mostrarEquipos(tipo, dataMap[tipo]);
+        });
+    });
+
+    // Mostrar formulario
     ingresoLink.addEventListener('click', () => {
         ocultarTodo();
         formulario.style.display = 'block';
     });
 
-    // Manejar el envío del formulario
+    // Guardar nuevo equipo
     formulario.addEventListener('submit', (e) => {
         e.preventDefault();
+
         const tipo = document.getElementById('tipo').value.toLowerCase();
         const id = document.getElementById('id').value;
         const nombre = document.getElementById('nombre').value;
@@ -46,213 +118,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (fechaVencimiento < fechaCalibracion) {
             Toastify({
-                text: "⚠️ La fecha de vencimiento de calibración no puede ser anterior a la fecha de calibración.",
-                duration: 2000,
-                gravity: "center",
-                position: "center",
-                backgroundColor: "#e74c3c",
-                stopOnFocus: true
-            }).showToast();
-        } else {
-            const nuevoEquipo = {
-                ID: id,
-                "nombre equipo": nombre,
-                "fecha calibracion": calibracion,
-                "fecha verificacion": verificacion,
-                "vencimiento calibracion": vencimiento,
-                imagenURL: imagenURL,
-                "certificado calibracion": certificado ? certificado.name : "Sin certificado",
-                "manual equipo": manual ? manual.name : "Sin manual"
-            };
-
-
-            switch (tipo) {
-                case 'incubadora':
-                    incubadora.push(nuevoEquipo);
-                    localStorage.setItem('incubadora', JSON.stringify(incubadora));
-                    break;
-                case 'estufa':
-                    estufa.push(nuevoEquipo);
-                    localStorage.setItem('estufa', JSON.stringify(estufa));
-                    break;
-                case 'autoclave':
-                    autoclave.push(nuevoEquipo);
-                    localStorage.setItem('autoclave', JSON.stringify(autoclave));
-                    break;
-                case 'termometro':
-                    termometro.push(nuevoEquipo);
-                    localStorage.setItem('termometro', JSON.stringify(termometro));
-                    break;
-                case 'microscopio':
-                    microscopio.push(nuevoEquipo);
-                    localStorage.setItem('microscopio', JSON.stringify(microscopio));
-                    break;
-                case 'banio':
-                    banio.push(nuevoEquipo);
-                    localStorage.setItem('banio', JSON.stringify(banio));
-                    break;
-                case 'balanza':
-                    balanza.push(nuevoEquipo);
-                    localStorage.setItem('balanza', JSON.stringify(balanza));
-                    break;
-                case 'flujo':
-                    flujo.push(nuevoEquipo);
-                    localStorage.setItem('flujo', JSON.stringify(flujo));
-                    break;
-            }
-
-            Toastify({
-                text: "✅ ¡Equipo guardado con éxito!",
+                text: "⚠️ La fecha de vencimiento no puede ser anterior a la de calibración.",
                 duration: 3000,
                 gravity: "center",
                 position: "center",
-                backgroundColor: "#27ae60"
+                backgroundColor: "#e74c3c",
             }).showToast();
-            formulario.reset();
+            return;
         }
 
+        const nuevoEquipo = {
+            ID: id,
+            "nombre equipo": nombre,
+            "fecha calibracion": calibracion,
+            "fecha verificacion": verificacion,
+            "vencimiento calibracion": vencimiento,
+            imagenURL: imagenURL,
+            "certificado calibracion": certificado ? certificado.name : "Sin certificado",
+            "manual equipo": manual ? manual.name : "Sin manual"
+        };
+
+        dataMap[tipo].push(nuevoEquipo);
+        localStorage.setItem(tipo, JSON.stringify(dataMap[tipo]));
+
+        Toastify({
+            text: "✅ ¡Equipo guardado con éxito!",
+            duration: 3000,
+            gravity: "center",
+            position: "center",
+            backgroundColor: "#27ae60"
+        }).showToast();
+
+        formulario.reset();
     });
 
-    // Función para ocultar todas las secciones
-    function ocultarTodo() {
-        formulario.style.display = 'none';
-        seccionIncubadora.style.display = 'none';
-        seccionEstufa.style.display = 'none';
-        logoPrincipal.style.display = 'none';
-        seccionAutoclave.style.display = 'none';
-        seccionTermometro.style.display = 'none';
-        seccionMicroscopio.style.display = 'none';
-        seccionBanio.style.display = 'none';
-        seccionBalanza.style.display = 'none';
-        seccionFlujo.style.display = 'none';
-    }
-    const dataMap = {
-        incubadora,
-        estufa,
-        autoclave,
-        termometro,
-        microscopio,
-        banio,
-        balanza,
-        flujo,
-    };
-    const tipos = ['incubadora', 'estufa', 'autoclave', 'termometro', 'microscopio', 'banio', 'balanza', 'flujo'];
-
-    tipos.forEach(tipo => {
-        try {
-            const link = document.getElementById(`link-${tipo}`);
-            link.addEventListener("click", () => {
-                ocultarTodo();
-                document.getElementById(`seccion-${tipo}`).style.display = "block";
-                mostrarEquipos(tipo, dataMap[tipo]);
-            });
-        } catch (error) {
-            console.warn(`⚠️ No se pudo agregar el evento para link-${tipo}:`, error);
-        }
-    });
-
-    //funcion para mostrar equipos
-    function mostrarEquipos(tipo, array) {
-        const contenedor = document.getElementById(`contenido-${tipo}`);
-        contenedor.innerHTML = "";
-
-        if (array.length === 0) {
-            contenedor.innerHTML = `<h2>No hay equipos registrados.</h2>`;
-        } else {
-            array.forEach((equipo, index) => {
-                const equipoHTML = `
-            <div class="grilla">
-                <div class="grilla-izquierda">
-                    ${equipo.imagenURL ? `<img src="${equipo.imagenURL}" class="imagen-incubadora">` : '<p>Sin imagen</p>'}
-                </div>
-                <div class="separador"></div>
-                <div class="contenido">
-                    <p><strong>ID:</strong> ${equipo.ID}</p>
-                    <p>
-                    <strong>Nombre:</strong> ${equipo["nombre equipo"]}
-                    </p>
-                    <p>
-                        <strong>Fecha Calibración:</strong>
-                        <span>${equipo["fecha calibracion"]}</span>
-                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="fecha calibracion">Editar</button>
-
-                    </p>
-                    <p>
-                        <strong>Fecha Verificación:</strong> 
-                        <span>${equipo["fecha verificacion"]}</span>
-                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="fecha verificacion">Editar</button>
-                    </p>
-                    <p>
-                        <strong>Vencimiento Calibración:</strong>
-                        <span>${equipo["vencimiento calibracion"]}</span>
-                        <button class="btn-editar" data-tipo="${tipo}" data-index="${index}" data-campo="vencimiento calibracion">Editar</button>
-                    </p>
-                    <p>
-                        <strong>Certificado:</strong>${equipo["certificado calibracion"]}
-                        
-                    </p>
-                    <p>
-                        <strong>Manual:</strong> ${equipo["manual equipo"]}
-                    </p>
-                    <div class="botones-equipo">
-                        <button class="btn-eliminar" data-tipo="${tipo}" data-index="${index}">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-            `;
-                contenedor.innerHTML += equipoHTML;
-            });
-        }
-    }
-
-    const mainContent = document.querySelector('main');
-    //evento de click para eliminar equipo
-    mainContent.addEventListener('click', (e) => {
+    // Eliminar equipo
+    document.querySelector('main').addEventListener('click', (e) => {
         if (e.target.classList.contains('btn-eliminar')) {
             const tipo = e.target.dataset.tipo;
             const index = parseInt(e.target.dataset.index, 10);
-            eliminarEquipo(tipo, index);
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción eliminará el equipo.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    dataMap[tipo].splice(index, 1);
+                    localStorage.setItem(tipo, JSON.stringify(dataMap[tipo]));
+                    mostrarEquipos(tipo, dataMap[tipo]);
+                    Toastify({
+                        text: "🗑️ Equipo eliminado",
+                        duration: 2000,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#e74c3c"
+                    }).showToast();
+                }
+            });
         }
     });
-    //funcion para eliminar equipo
-    function eliminarEquipo(tipo, index) {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "Esta acción eliminará el equipo.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const array = JSON.parse(localStorage.getItem(tipo)) || [];
-                array.splice(index, 1);
-                localStorage.setItem(tipo, JSON.stringify(array));
 
-                Toastify({
-                    text: "🗑️ Equipo eliminado",
-                    duration: 2000,
-                    gravity: "top",
-                    position: "center",
-                    backgroundColor: "#e74c3c",
-                }).showToast();
-
-                mostrarEquipos(tipo, array);
-            }
-        });
-    }
-//evento de click para editar
+    // Editar equipo
     document.querySelector('main').addEventListener('click', async (e) => {
         if (e.target.classList.contains('btn-editar')) {
             const tipo = e.target.dataset.tipo;
             const index = parseInt(e.target.dataset.index, 10);
             const campo = e.target.dataset.campo;
 
-            const array = JSON.parse(localStorage.getItem(tipo)) || [];
-            const equipo = array[index];
-
+            const equipo = dataMap[tipo][index];
             const esFecha = ['fecha', 'vencimiento', 'verificacion'].some(w => campo.toLowerCase().includes(w));
 
             const { value: nuevoValor } = await Swal.fire({
@@ -262,34 +201,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputValue: equipo[campo] || '',
                 showCancelButton: true,
                 inputValidator: (value) => {
-                    if (!value) {
-                        return 'Por favor, ingresa un valor';
-                    }
+                    if (!value) return 'Por favor, ingresa un valor';
 
                     if (campo === 'vencimiento calibracion') {
-                        const fechaCalibracion = new Date(equipo['fecha calibracion']);
                         const nuevaFecha = new Date(value);
-
+                        const fechaCalibracion = new Date(equipo['fecha calibracion']);
                         if (nuevaFecha < fechaCalibracion) {
-                            return '⚠️ La fecha de vencimiento no puede ser anterior a la fecha de calibración.';
+                            return '⚠️ No puede ser anterior a la fecha de calibración.';
                         }
                     }
                     return null;
                 }
-            });;
+            });
 
             if (nuevoValor) {
                 equipo[campo] = nuevoValor;
-
-                // Guardar en localStorage el array modificado
-                localStorage.setItem(tipo, JSON.stringify(array));
-
-                // Mostrar la lista actualizada
-                mostrarEquipos(tipo, array);
+                localStorage.setItem(tipo, JSON.stringify(dataMap[tipo]));
+                mostrarEquipos(tipo, dataMap[tipo]);
 
                 Toastify({
                     text: `✅ ${campo} actualizado correctamente`,
-                    duration: 4000,
+                    duration: 3000,
                     gravity: "top",
                     position: "center",
                     backgroundColor: "#27ae60"
@@ -297,5 +229,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
-})
+});

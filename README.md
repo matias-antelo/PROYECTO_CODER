@@ -7,5 +7,6 @@ Para las notificaciones se utilizo sweetalert en caso de un mal ingreso de datos
 Se puso en funcionamiento y solo para fines practicos un reloj que muestra la hora actual utilizando la API de RAPIDID.
 
 <h2>MicrobiologiaAgricola.html</h2>
-La idea de esta plataforma es dar ingreso a equipos y luego puedan ser visualizador en las pestañas correspondientes. El ingreso es un formulario de fechas un selector, ingreso de pdf, jpg o png creando un array principal el cual entraria el objeto,
-luego las otras pestañas son opciones que solamente muestran lo que fue guardado en el array desde el formulario de ingreso
+La idea de esta plataforma es dar ingreso a equipos y que luego puedan ser visualizador en las pestañas correspondientes. El ingreso es un formulario de fechas, ingreso de datos y tiene para ingresar archivos PDF y JPG. Se guardo en archivo JSON algunos objetos con el objetivo de mostrar el correcto funcionamiento y se dejo a otro sin objetos para que se pueda ver la la leyendo "<h2>No hay equipos registrados.</h2>". 
+El ingreso de datos desde la pestaña de ingreso de equipos crea el objeto en el array y lo guarda localmente en el localStorage para evitar perder la informacion cuando se carga la pagina.
+Finalmente se creo los botones EDITAR y ELIMINAR en funcion de las observaciones de la entrega anterior.

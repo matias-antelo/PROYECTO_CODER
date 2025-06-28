@@ -1,1 +1,10 @@
-[]
+[{
+    "ID": "INC004",
+    "nombre equipo": "Balanza granataria N2",
+    "fecha calibracion": "2024-06-15",
+    "fecha verificacion": "2024-06-20",
+    "vencimiento calibracion": "2025-06-15",
+    "imagenURL": "" ,
+    "certificado calibracion": "certificado_INC004.pdf",
+    "manual equipo": "manual_INC004.pdf"
+  }]

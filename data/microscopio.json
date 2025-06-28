@@ -1,1 +1,10 @@
-[]
+[{
+    "ID": "INC003",
+    "nombre equipo": "Microscopio ANKAP 207",
+    "fecha calibracion": "2024-06-15",
+    "fecha verificacion": "2024-06-20",
+    "vencimiento calibracion": "2025-06-15",
+    "imagenURL": "" ,
+    "certificado calibracion": "certificado_INC003.pdf",
+    "manual equipo": "manual_INC003.pdf"
+  }]

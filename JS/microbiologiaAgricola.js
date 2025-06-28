@@ -1,9 +1,9 @@
-// Objeto para almacenar los arrays 
+// Objeto para almacenar los equipos
 const dataMap = {};
 const tipos = ['incubadora', 'estufa', 'autoclave', 'termometro', 'microscopio', 'banio', 'balanza', 'flujo'];
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Cargar todos los arrays desde archivos JSON usando fetch
+    // Cargar todos los datos de equipos. Si existe en localStorage, usa eso; sino carga el JSON
     await Promise.all(tipos.map(async (tipo) => {
         try {
             const localData = JSON.parse(localStorage.getItem(tipo));
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }));
 
-    // Elementos del DOM
+    // Elementos del DOM del navbar
     const ingresoLink = document.getElementById('link-ingreso');
     const formulario = document.getElementById('formulario-ingreso');
     const logoPrincipal = document.getElementById("logo-principal");
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         formulario.style.display = 'block';
     });
 
-    // Guardar nuevo equipo
+    // Guardar nuevo equipo en el formulario
     formulario.addEventListener('submit', (e) => {
         e.preventDefault();
 
